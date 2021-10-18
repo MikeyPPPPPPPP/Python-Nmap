@@ -14,7 +14,7 @@ def get_local_ip():
     out = subprocess.Popen(['ipconfig','getifaddr','en0'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
     CURRENT_IP = str(stdout.decode()).strip()
-    GATWAY = CURRENT_IP[:-1]+"1"
+    GATWAY = CURRENT_IP.replace(CURRENT_IP.split('.')[-1], '1')
 
 
 
@@ -22,7 +22,7 @@ def get_local_ip():
 
 def get_nmap_ping_scan():
     get_local_ip()
-    host = CURRENT_IP[:-1]+str(1)+'/24'
+    host = CURRENT_IP.replace(CURRENT_IP.split('.')[-1], '1')+'/24'
     global HOST_AND_HOSTNAME
     hosts = []
     batcmd="nmap -T5 -sn "+host+"  | grep 'Nmap'"
